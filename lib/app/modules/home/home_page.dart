@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-import '../../utils/colors.dart';
+import '../../utils/colors.dart' as colors;
 import 'home_controller.dart';
 import 'widgets/account_info_text/account_info_text_widget.dart';
+import 'widgets/bottom_card/bottom_card_widget.dart';
 import 'widgets/card/card_widget.dart';
 import 'widgets/card_button/card_button_widget.dart';
+import 'widgets/card_footer/card_footer_widget.dart';
+import 'widgets/card_title/card_title_widget.dart';
+import 'widgets/credit_card_value/credit_card_value_widget.dart';
 import 'widgets/custom_app_bar/custom_app_bar_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -30,7 +35,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
       backgroundColor: Color(0xFF82269E),
       body: SafeArea(
         child: Container(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 140),
           width: screenSize.width,
           height: screenSize.height,
           child: Column(
@@ -70,108 +75,124 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                   ),
                 ],
               ),
-              const SizedBox(height: 30.0),
-              CardWidget(
-                screenWidth: screenSize.width,
-                body: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Icon(
-                          Icons.credit_card,
-                          color: Color(0xFF555555),
+              const SizedBox(height: 20.0),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
+                      CardWidget(
+                        title: CardTitleWidget(
+                          textStyle: textThemes.headline6,
+                          leadingIcon: Icons.credit_card,
+                          text: "Cartão de crédito",
                         ),
-                        const SizedBox(width: 15.0),
-                        Text(
-                          "Cartão de crédito",
-                          style: textThemes.headline6,
-                        )
-                      ],
-                    ),
-                    const SizedBox(height: 30.0),
-                    Text(
-                      "FATURA FECHADA",
-                      style: textThemes.bodyText1.copyWith(
-                        color: Color(0xFFE5615C),
-                      ),
-                    ),
-                    RichText(
-                      text: TextSpan(
-                          text: "R\$ ",
-                          style: textThemes.headline5,
-                          children: [
-                            TextSpan(
-                              text: "604",
-                              style: textThemes.headline5.copyWith(
-                                fontWeight: FontWeight.w800,
-                              ),
+                        onPressed: () {},
+                        screenWidth: screenSize.width,
+                        body: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  "FATURA FECHADA",
+                                  style: textThemes.bodyText1.copyWith(
+                                    color: Color(0xFFE5615C),
+                                  ),
+                                ),
+                                CreditCardValueWidget(
+                                  creditCardValue: "604,37",
+                                  textStyle: textThemes.headline5,
+                                ),
+                                Text(
+                                  "VENCIMENTO 10 JUL",
+                                  style: textThemes.bodyText2,
+                                ),
+                              ],
                             ),
-                            TextSpan(text: ",37", style: textThemes.headline5),
-                          ]),
-                    ),
-                    Text(
-                      "VENCIMENTO 10 JUL",
-                      style: textThemes.bodyText2,
-                    ),
-                    const SizedBox(height: 10.0),
-                    Row(
-                      children: <Widget>[
-                        CardButtonWidget(
-                          child: Text(
-                            "PAGAR",
-                            style: textThemes.button.copyWith(
-                              color: red,
+                            Row(
+                              children: <Widget>[
+                                CardButtonWidget(
+                                  child: Text(
+                                    "PAGAR",
+                                    style: textThemes.button.copyWith(
+                                      color: colors.red,
+                                    ),
+                                  ),
+                                  borderColor: colors.red,
+                                  onPressed: () {},
+                                ),
+                                const SizedBox(width: 10.0),
+                                CardButtonWidget(
+                                  child: Text(
+                                    "PARCELAR",
+                                    style: textThemes.button,
+                                  ),
+                                  onPressed: () {},
+                                ),
+                                const SizedBox(width: 10.0),
+                                LimitedBox(
+                                  maxWidth: 50,
+                                  child: CardButtonWidget(
+                                    child: Icon(Icons.more_horiz),
+                                    onPressed: () {},
+                                  ),
+                                )
+                              ],
                             ),
-                          ),
-                          borderColor: red,
-                          onPressed: () {},
+                          ],
                         ),
-                        const SizedBox(width: 10.0),
-                        CardButtonWidget(
-                          child: Text(
-                            "PARCELAR",
-                            style: textThemes.button,
-                          ),
-                          onPressed: () {},
+                        footer: CardFooterWidget(
+                          textStyle: textThemes.subtitle2,
+                          leadingIcon: Icons.fastfood,
+                          text:
+                              "Compra mais recente em Casa de Bolos no valor de R\$ 15,00 ontem.",
                         ),
-                        const SizedBox(width: 10.0),
-                        LimitedBox(
-                          maxWidth: 50,
-                          child: CardButtonWidget(
-                            child: Icon(Icons.more_horiz),
-                            onPressed: () {},
-                          ),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-                footer: Row(
-                  children: <Widget>[
-                    Icon(
-                      Icons.fastfood,
-                      color: Color(0xFF777777),
-                    ),
-                    const SizedBox(width: 20.0),
-                    Expanded(
-                      child: Text(
-                        "Compra mais recente em Casa de Bolos no valor de R\$ 15,00 ontem.",
-                        textAlign: TextAlign.justify,
-                        style: textThemes.subtitle2,
                       ),
-                    ),
-                    const SizedBox(width: 30.0),
-                    Icon(
-                      Icons.keyboard_arrow_right,
-                      size: 18,
-                    ),
-                  ],
+                      const SizedBox(height: 20.0),
+                      CardWidget(
+                        screenWidth: screenSize.width,
+                        onPressed: () {},
+                        title: CardTitleWidget(
+                          leadingIcon: Icons.monetization_on,
+                          text: "Conta",
+                          textStyle: textThemes.headline6,
+                        ),
+                        body: Text(
+                          "R\$ 123.456,78",
+                          style: textThemes.headline5.copyWith(
+                            color: Colors.black,
+                          ),
+                        ),
+                        footer: CardFooterWidget(
+                          leadingIcon: Icons.attach_money,
+                          text:
+                              "Transferência de R\$ 479,00 feita para John Doe em 06 JUL.",
+                          textStyle: textThemes.subtitle2,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              )
-              // Icon(MaterialCommunityIcons.account_plus_outline),
-              // Icon(MaterialCommunityIcons.cellphone),
+              ),
             ],
+          ),
+        ),
+      ),
+      bottomSheet: Container(
+        padding: EdgeInsets.symmetric(vertical: 20.0),
+        color: colors.nuPurple,
+        height: 140,
+        child: ListView.separated(
+          scrollDirection: Axis.horizontal,
+          padding: EdgeInsets.symmetric(horizontal: 20.0),
+          separatorBuilder: (_, index) => const SizedBox(width: 8.0),
+          itemCount: this.controller.bottomCardElements.length,
+          itemBuilder: (_, index) => BottomCardWidget(
+            cardColor: colors.cardPurple,
+            cardIcon: this.controller.bottomCardElements[index]["icon"],
+            cardText: this.controller.bottomCardElements[index]["text"],
           ),
         ),
       ),

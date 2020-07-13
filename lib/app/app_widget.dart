@@ -25,7 +25,7 @@ class AppWidget extends StatelessWidget {
             headline6: TextStyle(
               fontFamily: "NunitoSans",
               color: Color(0xFF767676),
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w500,
               fontSize: 16,
             ),
             bodyText1: TextStyle(
@@ -35,7 +35,6 @@ class AppWidget extends StatelessWidget {
             ),
             bodyText2: TextStyle(
               fontFamily: "NunitoSans",
-              // fontWeight: FontWeight.bold,
               fontSize: 14,
               color: Color(0xFF999999),
             ),
