@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
-const Duration _kExpand = Duration(milliseconds: 300);
-
 class CustomAppBarWidget extends StatefulWidget {
   const CustomAppBarWidget({
     Key key,
     @required this.userFirstName,
     this.textStyle,
     this.children,
+    this.screenSize,
+    this.onExpansionChanged,
+    this.controller,
   })  : assert(userFirstName != null,
             "The field 'userFirstName' must be provided."),
         super(key: key);
@@ -15,14 +16,15 @@ class CustomAppBarWidget extends StatefulWidget {
   final String userFirstName;
   final TextStyle textStyle;
   final List<Widget> children;
+  final Size screenSize;
+  final ValueChanged<bool> onExpansionChanged;
+  final AnimationController controller;
 
   @override
   _CustomAppBarWidgetState createState() => _CustomAppBarWidgetState();
 }
 
-class _CustomAppBarWidgetState extends State<CustomAppBarWidget>
-    with SingleTickerProviderStateMixin {
-  AnimationController _controller;
+class _CustomAppBarWidgetState extends State<CustomAppBarWidget> {
   static final Animatable<double> _easeInTween =
       CurveTween(curve: Curves.easeIn);
   static final Animatable<double> _halfTween =
@@ -39,25 +41,24 @@ class _CustomAppBarWidgetState extends State<CustomAppBarWidget>
   @override
   void initState() {
     super.initState();
-    this._controller = AnimationController(vsync: this, duration: _kExpand);
-    this._heightFactor = _controller.drive(_easeInTween);
-    this._iconTurns = _controller.drive(_halfTween.chain(_easeInTween));
-    this._opacity = _controller.drive(_opacityTween.chain(_easeInTween));
+    this._heightFactor = widget.controller.drive(_easeInTween);
+    this._iconTurns = widget.controller.drive(_halfTween.chain(_easeInTween));
+    this._opacity = widget.controller.drive(_opacityTween.chain(_easeInTween));
   }
 
   @override
   void dispose() {
     super.dispose();
-    this._controller.dispose();
+    this.widget.controller.dispose();
   }
 
   void _handleTap() {
     setState(() {
       _isExpanded = !_isExpanded;
       if (_isExpanded) {
-        _controller.forward();
+        widget.controller.forward();
       } else {
-        _controller.reverse().then<void>((void value) {
+        widget.controller.reverse().then<void>((void value) {
           if (!mounted) return;
           setState(() {
             // Rebuild without widget.children.
@@ -65,6 +66,9 @@ class _CustomAppBarWidgetState extends State<CustomAppBarWidget>
         });
       }
     });
+    if (widget.onExpansionChanged != null) {
+      widget.onExpansionChanged(_isExpanded);
+    }
   }
 
   Widget _buildChildren(BuildContext context, Widget child) {
@@ -98,7 +102,7 @@ class _CustomAppBarWidgetState extends State<CustomAppBarWidget>
         ),
         ClipRect(
           child: Align(
-            heightFactor: _heightFactor.value,
+            heightFactor: this._heightFactor.value,
             child: Opacity(
               opacity: this._opacity.value,
               child: child,
@@ -111,11 +115,15 @@ class _CustomAppBarWidgetState extends State<CustomAppBarWidget>
 
   @override
   Widget build(BuildContext context) {
-    final bool closed = !_isExpanded && _controller.isDismissed;
+    final bool closed = !_isExpanded && widget.controller.isDismissed;
     return AnimatedBuilder(
-      animation: this._controller.view,
+      animation: this.widget.controller.view,
       builder: _buildChildren,
-      child: closed ? null : Column(children: widget.children),
+      child: closed
+          ? null
+          : Column(
+              children: widget.children,
+            ),
     );
   }
 }

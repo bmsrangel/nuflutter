@@ -7,6 +7,7 @@ part 'home_controller.g.dart';
 class HomeController = _HomeControllerBase with _$HomeController;
 
 abstract class _HomeControllerBase with Store {
+  final ScrollController bottomMenuScroll$ = ScrollController();
   List<Map<String, dynamic>> bottomCardElements = [
     {
       "icon": MaterialCommunityIcons.account_plus_outline,
@@ -61,4 +62,39 @@ abstract class _HomeControllerBase with Store {
       "text": "Organizar atalhos",
     },
   ];
+
+  List<Map<String, dynamic>> appBarMenuItems = [
+    {
+      "icon": MaterialCommunityIcons.help_circle_outline,
+      "title": "Me ajuda",
+    },
+    {
+      "icon": MaterialCommunityIcons.account,
+      "title": "Perfil",
+      "subtitle": "Nome de preferência, telefone, email"
+    },
+    {
+      "icon": MaterialCommunityIcons.face_profile,
+      "title": "Perfil",
+      "subtitle": "Nome de preferência, telefone, email"
+    },
+    {
+      "icon": MaterialCommunityIcons.face_profile,
+      "title": "Perfil",
+      "subtitle": "Nome de preferência, telefone, email"
+    },
+    {
+      "icon": MaterialCommunityIcons.face_profile,
+      "title": "Perfil",
+      "subtitle": "Nome de preferência, telefone, email"
+    },
+  ];
+
+  @observable
+  bool isExpanded = false;
+
+  @action
+  void setIsExpanded(bool value) {
+    this.isExpanded = value;
+  }
 }
