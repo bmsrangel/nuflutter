@@ -161,7 +161,7 @@ class _HomePageState extends ModularState<HomePage, HomeController>
                                     ),
                                   ),
                                   CreditCardValueWidget(
-                                    creditCardValue: "604,37",
+                                    creditCardValue: "123,45",
                                     textStyle: textThemes.headline5,
                                   ),
                                   Text(

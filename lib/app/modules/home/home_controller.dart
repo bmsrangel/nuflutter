@@ -74,19 +74,20 @@ abstract class _HomeControllerBase with Store {
       "subtitle": "Nome de preferência, telefone, email"
     },
     {
-      "icon": MaterialCommunityIcons.face_profile,
-      "title": "Perfil",
-      "subtitle": "Nome de preferência, telefone, email"
+      "icon": MaterialCommunityIcons.account_edit,
+      "title": "Configurar conta",
     },
     {
-      "icon": MaterialCommunityIcons.face_profile,
-      "title": "Perfil",
-      "subtitle": "Nome de preferência, telefone, email"
+      "icon": MaterialCommunityIcons.credit_card_outline,
+      "title": "Configurar cartão",
     },
     {
-      "icon": MaterialCommunityIcons.face_profile,
-      "title": "Perfil",
-      "subtitle": "Nome de preferência, telefone, email"
+      "icon": MaterialCommunityIcons.warehouse,
+      "title": "Pedir conta PJ",
+    },
+    {
+      "icon": MaterialCommunityIcons.cellphone,
+      "title": "Configurações do dispositivo",
     },
   ];
 
